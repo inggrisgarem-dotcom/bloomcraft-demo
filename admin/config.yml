@@ -1,0 +1,35 @@
+backend:
+  name: github
+  repo: inggrisgarem-dotcom/bloomcraft-demo
+  branch: main
+  base_url: https://decap-proxy.glodigs.workers.dev
+
+media_folder: "assets"
+public_folder: "assets"
+
+collections:
+  - name: "products"
+    label: "Products"
+    files:
+      - name: "product_list"
+        label: "Product List"
+        file: "products.json"
+        fields:
+          - label: "Products"
+            name: "products"
+            widget: "list"
+            summary: "{{fields.name}} — Rp{{fields.price}}"
+            fields:
+              - { label: "ID (unique, no spaces)", name: "id", widget: "string" }
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Price (IDR)", name: "price", widget: "number", value_type: "int" }
+              - { label: "Image", name: "img", widget: "image" }
+              - label: "Category"
+                name: "cat"
+                widget: "select"
+                options: ["bouquet", "potted"]
+              - { label: "Best Seller", name: "bestseller", widget: "boolean", default: false }
+              - label: "Features"
+                name: "features"
+                widget: "list"
+                field: { label: "Feature", name: "feature", widget: "string" }

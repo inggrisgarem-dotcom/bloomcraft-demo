@@ -1,14 +1,22 @@
-[
-  { "id": "tulip-red", "name": "Red Tulip Bouquet", "price": 145000, "img": "assets/tulip-red.jpg", "cat": "bouquet",
-    "features": ["12 stems, hand-tied", "Fresh cut same day", "Includes care card"] },
-  { "id": "mawar-putih", "name": "White Rose Bouquet", "price": 175000, "img": "assets/mawar-putih.jpg", "cat": "bouquet", "bestseller": true,
-    "features": ["15 stems, classic wrap", "Symbol of pure elegance", "Vase-ready on arrival"] },
-  { "id": "lily-kuning", "name": "Yellow Lily Bunch", "price": 130000, "img": "assets/lily-kuning.jpg", "cat": "bouquet",
-    "features": ["6 stems, fragrant bloom", "Long-lasting freshness", "Great for gifting"] },
-  { "id": "anggrek-ungu", "name": "Purple Orchid (Potted)", "price": 285000, "img": "assets/anggrek-ungu.jpg", "cat": "potted", "bestseller": true,
-    "features": ["Ceramic pot included", "Blooms for weeks", "Low maintenance"] },
-  { "id": "bunga-matahari", "name": "Sunflower Bouquet", "price": 110000, "img": "assets/bunga-matahari.jpg", "cat": "bouquet",
-    "features": ["5 large stems", "Bright, cheerful gift", "Perfect for any occasion"] },
-  { "id": "sakura-pink", "name": "Cherry Blossom Branch", "price": 195000, "img": "assets/sakura-pink.jpg", "cat": "potted",
-    "features": ["Seasonal branch, 60cm", "Statement centerpiece", "Limited availability"] }
-]
+{
+  "products": [
+    { "id": "tulip-red", "name": "Red Tulip Bouquet", "price": 145000, "img": "assets/tulip-red.jpg", "cat": "bouquet",
+      "bestseller": false,
+      "features": ["12 stems, hand-tied", "Fresh cut same day", "Includes care card"] },
+    { "id": "mawar-putih", "name": "White Rose Bouquet", "price": 175000, "img": "assets/mawar-putih.jpg", "cat": "bouquet",
+      "bestseller": true,
+      "features": ["15 stems, classic wrap", "Symbol of pure elegance", "Vase-ready on arrival"] },
+    { "id": "lily-kuning", "name": "Yellow Lily Bunch", "price": 130000, "img": "assets/lily-kuning.jpg", "cat": "bouquet",
+      "bestseller": false,
+      "features": ["6 stems, fragrant bloom", "Long-lasting freshness", "Great for gifting"] },
+    { "id": "anggrek-ungu", "name": "Purple Orchid (Potted)", "price": 285000, "img": "assets/anggrek-ungu.jpg", "cat": "potted",
+      "bestseller": true,
+      "features": ["Ceramic pot included", "Blooms for weeks", "Low maintenance"] },
+    { "id": "bunga-matahari", "name": "Sunflower Bouquet", "price": 110000, "img": "assets/bunga-matahari.jpg", "cat": "bouquet",
+      "bestseller": false,
+      "features": ["5 large stems", "Bright, cheerful gift", "Perfect for any occasion"] },
+    { "id": "sakura-pink", "name": "Cherry Blossom Branch", "price": 195000, "img": "assets/sakura-pink.jpg", "cat": "potted",
+      "bestseller": false,
+      "features": ["Seasonal branch, 60cm", "Statement centerpiece", "Limited availability"] }
+  ]
+}

@@ -380,7 +380,8 @@ let PRODUCTS = [];
 async function loadProducts() {
   try {
     const res = await fetch('products.json');
-    PRODUCTS = await res.json();
+    const data = await res.json();
+    PRODUCTS = data.products || [];
   } catch (e) {
     console.error('Failed to load products.json', e);
     PRODUCTS = [];
