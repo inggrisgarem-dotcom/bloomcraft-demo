@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloomcraft — Flower Shop Demo | Glodigs Case Study</title>
+<meta name="description" content="Demo e-commerce flower shop with smart cart and WhatsApp checkout. Built by Glodigs — hand-coded, zero dependencies.">
+<style>
+:root{
+  --ink:#0c0f0b;--ink-2:#12160f;--panel:rgba(20,26,17,.55);--line:rgba(122,168,90,.22);--line-2:rgba(255,255,255,.08);
+  --green:#7aa85a;--green-deep:#557a3c;--green-pale:#c9e6b0;--ivory:#f2efe6;--muted:#a3ab97;
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --maxw:1160px;--glass:saturate(1.2) blur(14px);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--ivory);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;padding-bottom:60px}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--serif);font-weight:700;color:var(--green-pale);margin:0 0 .4em;line-height:1.2}
+p{margin:0 0 1em;color:var(--ivory)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,4vw,48px)}
+.eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--green);display:inline-block;margin-bottom:1em}
+section{padding:56px 0}
+@media(min-width:820px){section{padding:80px 0}}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:11px 22px;border-radius:8px;font-weight:600;font-size:.85rem;border:1px solid transparent;cursor:pointer;transition:transform .15s ease}
+.btn-green{background:linear-gradient(180deg,var(--green-pale),var(--green) 55%,var(--green-deep));color:#0c1408}
+.btn-green:hover{transform:translateY(-2px)}
+.btn-line{border-color:var(--line);color:var(--green-pale);background:rgba(255,255,255,.03)}
+.glass{background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02));backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);border:1px solid var(--line-2);border-radius:14px}
+.disclosure{font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px dashed var(--line);padding:8px 14px;border-radius:8px;display:inline-block;margin-bottom:20px}
+header{position:sticky;top:0;z-index:50;background:rgba(12,15,11,.95);backdrop-filter:var(--glass);border-bottom:1px solid var(--line-2)}
+.nav-row{display:flex;align-items:center;justify-content:space-between;min-height:62px;padding:6px 0}
+.brand{font-family:var(--serif);font-size:1.2rem;font-weight:700;color:var(--green-pale)}
+.brand b{color:var(--green)}
+.nav-links{display:none;gap:24px;font-family:var(--mono);font-size:.78rem;letter-spacing:.05em;text-transform:uppercase}
+@media(min-width:700px){.nav-links{display:flex}}
+.hero{padding:48px 0 40px;text-align:center}
+.hero h1{font-size:clamp(2rem,1.4rem + 2.6vw,3rem)}
+.hero p{color:var(--muted);max-width:56ch;margin:0 auto 24px}
+.pf-filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 28px;justify-content:center}
+.pf-filter{font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;padding:7px 14px;border-radius:20px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);color:var(--muted);cursor:pointer}
+.pf-filter.is-active{border-color:var(--green);color:var(--green-pale);background:rgba(122,168,90,.1)}
+.pf-hidden{display:none}
+.grid{display:grid;gap:20px;grid-template-columns:1fr}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+@media(min-width:960px){.grid{grid-template-columns:repeat(3,1fr)}}
+.p-card{overflow:hidden;cursor:pointer;transition:transform .2s ease}
+.p-card:hover{transform:translateY(-3px)}
+.p-thumb{aspect-ratio:4/3.4;overflow:hidden}
+.p-thumb img{width:100%;height:100%;object-fit:cover}
+.p-body{padding:16px 18px 20px}
+.p-body h3{font-size:1.02rem;margin-bottom:.2em}
+.p-price{font-family:var(--mono);color:var(--green);font-size:.92rem}
+.trust-grid{display:grid;gap:16px;grid-template-columns:repeat(2,1fr);margin-top:36px}
+@media(min-width:700px){.trust-grid{grid-template-columns:repeat(4,1fr)}}
+.trust-item{text-align:center;padding:20px 12px}
+.trust-item .ic{font-size:1.5rem;margin-bottom:8px}
+.trust-item h4{font-size:.85rem;color:var(--green-pale);margin:0 0 .3em}
+.trust-item p{font-size:.78rem;color:var(--muted);margin:0}
+/* Modal */
+.modal{position:fixed;inset:0;z-index:80;display:none;align-items:flex-end;justify-content:center}
+.modal.is-open{display:flex}
+@media(min-width:760px){.modal{align-items:center}}
+.modal-backdrop{position:absolute;inset:0;background:rgba(4,6,3,.72);border:0;padding:0;cursor:pointer}
+.modal-panel{position:relative;z-index:1;width:100%;max-height:88vh;overflow-y:auto;padding:0 0 28px;border-radius:20px 20px 0 0;background:var(--ink-2);border:1px solid var(--line-2)}
+@media(min-width:760px){.modal-panel{max-width:520px;border-radius:20px}}
+.modal-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:rgba(0,0,0,.4);color:var(--green-pale);cursor:pointer;z-index:2}
+.modal-img{width:100%;aspect-ratio:4/3.4;object-fit:cover}
+.modal-body{padding:22px clamp(20px,4vw,30px) 0}
+.modal-body h2{font-size:1.3rem;margin-bottom:.2em}
+.modal-price{font-family:var(--mono);color:var(--green);font-size:1.1rem;margin-bottom:14px;display:block}
+.modal-features{display:grid;gap:8px;margin:0 0 20px;padding:0;list-style:none}
+.modal-features li{position:relative;padding-left:20px;color:var(--muted);font-size:.9rem}
+.modal-features li::before{content:"✓";position:absolute;left:0;color:var(--green)}
+.modal-actions{display:flex;gap:12px;flex-wrap:wrap}
+/* Cart */
+.cart-fab{position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:linear-gradient(180deg,var(--green-pale),var(--green));border:0;cursor:pointer;font-size:1.3rem;box-shadow:0 10px 26px -8px rgba(122,168,90,.6);z-index:40}
+.cart-badge{position:absolute;top:-4px;right:-4px;background:#e8503a;color:#fff;font-size:.68rem;font-weight:700;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono)}
+.cart-panel{position:fixed;inset:0;background:rgba(4,6,3,.75);display:none;align-items:flex-end;justify-content:center;z-index:81}
+.cart-panel.open{display:flex}
+.cart-box{background:var(--ink-2);border:1px solid var(--line-2);border-radius:18px 18px 0 0;width:100%;max-width:460px;max-height:80vh;overflow-y:auto;padding:20px}
+.cart-box h2{font-size:1.1rem;margin:0 0 14px;display:inline-block}
+.cart-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line-2)}
+.cart-item .info{flex:1}
+.cart-item .info b{display:block;font-size:.88rem}
+.cart-item .info span{font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+.qty-ctrl{display:flex;align-items:center;gap:8px}
+.qty-ctrl button{width:26px;height:26px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--green-pale);cursor:pointer}
+.cart-empty{color:var(--muted);text-align:center;padding:26px 0;font-size:.88rem}
+.cart-total{display:flex;justify-content:space-between;padding:14px 0;font-family:var(--mono);color:var(--green-pale)}
+.checkout-btn{width:100%;background:#25D366;color:#06210f;border:0;border-radius:10px;padding:13px;font-weight:700;cursor:pointer;font-size:.92rem}
+.checkout-btn:disabled{opacity:.4;cursor:not-allowed}
+.close-cart{float:right;background:none;border:1px solid var(--line);color:var(--green-pale);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:.78rem}
+footer{border-top:1px solid var(--line-2);padding:36px 0;text-align:center}
+footer p{color:var(--muted);font-size:.82rem;margin:0}
+footer a{color:var(--green-pale);border-bottom:1px solid var(--green-deep)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-row">
+    <span class="brand"><b>Bloom</b>craft</span>
+    <nav class="nav-links">
+      <a href="#shop">Shop</a>
+      <a href="#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="disclosure">DEMO BUILD BY GLODIGS — SAMPLE E-COMMERCE PROJECT, NOT A LIVE BUSINESS</span>
+    <span class="eyebrow">Flower Shop</span>
+    <h1>Fresh flowers,<br>delivered with care.</h1>
+    <p>A demo flower shop showcasing a serverless smart cart with automatic WhatsApp checkout — built entirely hand-coded, zero dependencies, no page builder.</p>
+  </div>
+</section>
+
+<section id="shop" style="padding-top:0">
+  <div class="wrap">
+    <div class="pf-filters" id="filters">
+      <button class="pf-filter is-active" data-filter="all">All</button>
+      <button class="pf-filter" data-filter="bouquet">Bouquets</button>
+      <button class="pf-filter" data-filter="potted">Potted</button>
+    </div>
+    <div class="grid" id="productGrid"></div>
+
+    <div class="trust-grid">
+      <div class="trust-item glass"><div class="ic">🌿</div><h4>Fresh Guarantee</h4><p>Sourced same-day from local growers</p></div>
+      <div class="trust-item glass"><div class="ic">🚚</div><h4>Same-Day Delivery</h4><p>Order before 2 PM, arrives today</p></div>
+      <div class="trust-item glass"><div class="ic">📦</div><h4>Careful Packing</h4><p>Protected for a safe, beautiful arrival</p></div>
+      <div class="trust-item glass"><div class="ic">💬</div><h4>Order Confirmation</h4><p>Direct confirmation via WhatsApp</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap" style="text-align:center;max-width:640px">
+    <span class="eyebrow">About This Demo</span>
+    <h2>Why this exists</h2>
+    <p style="color:var(--muted)">Bloomcraft is a fictional flower shop built to demonstrate a real technical capability: a shopping cart that works entirely in the browser (no server, no database) with checkout handled through an automatically formatted WhatsApp message. No cart plugin, no e-commerce platform — hand-coded from scratch.</p>
+  </div>
+</section>
+
+<!-- Product Modal -->
+<div class="modal" id="productModal">
+  <button class="modal-backdrop" data-close></button>
+  <div class="modal-panel glass">
+    <button class="modal-close" data-close>✕</button>
+    <img class="modal-img" id="modalImg" src="" alt="">
+    <div class="modal-body">
+      <h2 id="modalName"></h2>
+      <span class="modal-price" id="modalPrice"></span>
+      <ul class="modal-features" id="modalFeatures"></ul>
+      <div class="modal-actions">
+        <button class="btn btn-green" id="modalAddBtn">+ Add to Cart</button>
+        <a class="btn btn-line" id="modalWaBtn" target="_blank" rel="noopener">Ask via WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="cart-fab" id="cartFab">🛒<span class="cart-badge" id="cartBadge" style="display:none">0</span></button>
+
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-box">
+    <button class="close-cart" id="closeCart">Close ✕</button>
+    <h2>Your Cart</h2>
+    <div id="cartItemsWrap"></div>
+    <div class="cart-total" id="cartTotalWrap" style="display:none">
+      <span>Total</span><span id="cartTotalValue"></span>
+    </div>
+    <button class="checkout-btn" id="checkoutBtn" disabled>💬 Checkout via WhatsApp</button>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>Demo build by <a href="https://glodigs.pages.dev" target="_blank" rel="noopener">Glodigs</a> · <a href="https://github.com/inggrisgarem-dotcom/bloomcraft-demo" target="_blank" rel="noopener">View Source Code</a></p>
+  </div>
+</footer>
+
+<script>
+const STORAGE_KEY = 'bloomcraft_cart';
+const WA_NUMBER = '6289673919035';
+
+const PRODUCTS = [
+  { id: 'tulip-red', name: 'Red Tulip Bouquet', price: 145000, img: 'assets/tulip-red.jpg', cat: 'bouquet',
+    features: ['12 stems, hand-tied', 'Fresh cut same day', 'Includes care card'] },
+  { id: 'mawar-putih', name: 'White Rose Bouquet', price: 175000, img: 'assets/mawar-putih.jpg', cat: 'bouquet',
+    features: ['15 stems, classic wrap', 'Symbol of pure elegance', 'Vase-ready on arrival'] },
+  { id: 'lily-kuning', name: 'Yellow Lily Bunch', price: 130000, img: 'assets/lily-kuning.jpg', cat: 'bouquet',
+    features: ['6 stems, fragrant bloom', 'Long-lasting freshness', 'Great for gifting'] },
+  { id: 'anggrek-ungu', name: 'Purple Orchid (Potted)', price: 285000, img: 'assets/anggrek-ungu.jpg', cat: 'potted',
+    features: ['Ceramic pot included', 'Blooms for weeks', 'Low maintenance'] },
+  { id: 'bunga-matahari', name: 'Sunflower Bouquet', price: 110000, img: 'assets/bunga-matahari.jpg', cat: 'bouquet',
+    features: ['5 large stems', 'Bright, cheerful gift', 'Perfect for any occasion'] },
+  { id: 'sakura-pink', name: 'Cherry Blossom Branch', price: 195000, img: 'assets/sakura-pink.jpg', cat: 'potted',
+    features: ['Seasonal branch, 60cm', 'Statement centerpiece', 'Limited availability'] },
+];
+
+function loadCart() {
+  try { const raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : []; }
+  catch (e) { return []; }
+}
+function saveCart(cart) { localStorage.setItem(STORAGE_KEY, JSON.stringify(cart)); }
+function addItem(product) {
+  const cart = loadCart();
+  const existing = cart.find(i => i.id === product.id);
+  if (existing) existing.qty += 1;
+  else cart.push({ id: product.id, name: product.name, price: product.price, qty: 1 });
+  saveCart(cart); return cart;
+}
+function changeQty(id, delta) {
+  let cart = loadCart();
+  const item = cart.find(i => i.id === id);
+  if (!item) return cart;
+  item.qty += delta;
+  cart = item.qty <= 0 ? cart.filter(i => i.id !== id) : cart;
+  saveCart(cart); return cart;
+}
+function cartTotal(cart) { return cart.reduce((s,i)=>s+i.price*i.qty,0); }
+function cartCount(cart) { return cart.reduce((s,i)=>s+i.qty,0); }
+function formatRupiah(n) { return 'Rp' + n.toLocaleString('id-ID'); }
+function formatCheckoutTime() {
+  const now = new Date();
+  const datePart = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  const timePart = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  return `${datePart}, ${timePart}`;
+}
+function buildWhatsAppMessage(cart) {
+  if (cart.length === 0) return null;
+  let lines = ['Hi Bloomcraft, I would like to place an order from your catalog:', ''];
+  cart.forEach(i => lines.push(`- ${i.name} x${i.qty} = ${formatRupiah(i.price*i.qty)}`));
+  lines.push('', `Total: ${formatRupiah(cartTotal(cart))}`);
+  lines.push(`Checkout time: ${formatCheckoutTime()}`);
+  lines.push('', 'Please confirm availability and delivery details. Thank you!');
+  return `https://api.whatsapp.com/send/?phone=${WA_NUMBER}&text=${encodeURIComponent(lines.join('\n'))}&type=phone_number&app_absent=0`;
+}
+function buildAskMessage(product) {
+  const text = `Hi Bloomcraft, I'm interested in the ${product.name} (${formatRupiah(product.price)}). Could you tell me more?`;
+  return `https://api.whatsapp.com/send/?phone=${WA_NUMBER}&text=${encodeURIComponent(text)}&type=phone_number&app_absent=0`;
+}
+
+const grid = document.getElementById('productGrid');
+function renderGrid(filter) {
+  grid.innerHTML = '';
+  PRODUCTS.filter(p => filter === 'all' || p.cat === filter).forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'p-card glass';
+    card.dataset.id = p.id;
+    card.innerHTML = `
+      <div class="p-thumb"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+      <div class="p-body">
+        <h3>${p.name}</h3>
+        <span class="p-price">${formatRupiah(p.price)}</span>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+renderGrid('all');
+
+document.getElementById('filters').addEventListener('click', (e) => {
+  if (!e.target.matches('.pf-filter')) return;
+  document.querySelectorAll('.pf-filter').forEach(b => b.classList.remove('is-active'));
+  e.target.classList.add('is-active');
+  renderGrid(e.target.dataset.filter);
+});
+
+const modal = document.getElementById('productModal');
+let currentProduct = null;
+grid.addEventListener('click', (e) => {
+  const card = e.target.closest('.p-card');
+  if (!card) return;
+  const p = PRODUCTS.find(x => x.id === card.dataset.id);
+  currentProduct = p;
+  document.getElementById('modalImg').src = p.img;
+  document.getElementById('modalImg').alt = p.name;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalPrice').textContent = formatRupiah(p.price);
+  document.getElementById('modalFeatures').innerHTML = p.features.map(f => `<li>${f}</li>`).join('');
+  document.getElementById('modalWaBtn').href = buildAskMessage(p);
+  modal.classList.add('is-open');
+});
+modal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', () => modal.classList.remove('is-open')));
+document.getElementById('modalAddBtn').addEventListener('click', () => {
+  if (!currentProduct) return;
+  addItem(currentProduct);
+  renderCart();
+  modal.classList.remove('is-open');
+});
+
+function renderCart() {
+  const cart = loadCart();
+  const count = cartCount(cart);
+  const badge = document.getElementById('cartBadge');
+  badge.style.display = count > 0 ? 'flex' : 'none';
+  badge.textContent = count;
+
+  const wrap = document.getElementById('cartItemsWrap');
+  const totalWrap = document.getElementById('cartTotalWrap');
+  const checkoutBtn = document.getElementById('checkoutBtn');
+
+  if (cart.length === 0) {
+    wrap.innerHTML = '<p class="cart-empty">Your cart is empty.</p>';
+    totalWrap.style.display = 'none';
+    checkoutBtn.disabled = true;
+    return;
+  }
+  wrap.innerHTML = cart.map(i => `
+    <div class="cart-item">
+      <div class="info"><b>${i.name}</b><span>${formatRupiah(i.price)} each</span></div>
+      <div class="qty-ctrl">
+        <button data-action="dec" data-id="${i.id}">−</button>
+        <span>${i.qty}</span>
+        <button data-action="inc" data-id="${i.id}">+</button>
+      </div>
+    </div>
+  `).join('');
+  totalWrap.style.display = 'flex';
+  document.getElementById('cartTotalValue').textContent = formatRupiah(cartTotal(cart));
+  checkoutBtn.disabled = false;
+}
+
+document.getElementById('cartItemsWrap').addEventListener('click', (e) => {
+  if (e.target.dataset.action === 'inc') { changeQty(e.target.dataset.id, 1); renderCart(); }
+  if (e.target.dataset.action === 'dec') { changeQty(e.target.dataset.id, -1); renderCart(); }
+});
+document.getElementById('cartFab').addEventListener('click', () => document.getElementById('cartPanel').classList.add('open'));
+document.getElementById('closeCart').addEventListener('click', () => document.getElementById('cartPanel').classList.remove('open'));
+document.getElementById('checkoutBtn').addEventListener('click', () => {
+  const cart = loadCart();
+  const link = buildWhatsAppMessage(cart);
+  if (link) window.open(link, '_blank');
+});
+
+renderCart();
+</script>
+
+</body>
+</html>
