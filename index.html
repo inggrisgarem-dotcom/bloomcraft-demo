@@ -376,20 +376,16 @@ footer a{color:var(--green-pale);border-bottom:1px solid var(--green-deep)}
 const STORAGE_KEY = 'bloomcraft_cart';
 const WA_NUMBER = '6289673919035';
 
-const PRODUCTS = [
-  { id: 'tulip-red', name: 'Red Tulip Bouquet', price: 145000, img: 'assets/tulip-red.jpg', cat: 'bouquet',
-    features: ['12 stems, hand-tied', 'Fresh cut same day', 'Includes care card'] },
-  { id: 'mawar-putih', name: 'White Rose Bouquet', price: 175000, img: 'assets/mawar-putih.jpg', cat: 'bouquet', bestseller: true,
-    features: ['15 stems, classic wrap', 'Symbol of pure elegance', 'Vase-ready on arrival'] },
-  { id: 'lily-kuning', name: 'Yellow Lily Bunch', price: 130000, img: 'assets/lily-kuning.jpg', cat: 'bouquet',
-    features: ['6 stems, fragrant bloom', 'Long-lasting freshness', 'Great for gifting'] },
-  { id: 'anggrek-ungu', name: 'Purple Orchid (Potted)', price: 285000, img: 'assets/anggrek-ungu.jpg', cat: 'potted', bestseller: true,
-    features: ['Ceramic pot included', 'Blooms for weeks', 'Low maintenance'] },
-  { id: 'bunga-matahari', name: 'Sunflower Bouquet', price: 110000, img: 'assets/bunga-matahari.jpg', cat: 'bouquet',
-    features: ['5 large stems', 'Bright, cheerful gift', 'Perfect for any occasion'] },
-  { id: 'sakura-pink', name: 'Cherry Blossom Branch', price: 195000, img: 'assets/sakura-pink.jpg', cat: 'potted',
-    features: ['Seasonal branch, 60cm', 'Statement centerpiece', 'Limited availability'] },
-];
+let PRODUCTS = [];
+async function loadProducts() {
+  try {
+    const res = await fetch('products.json');
+    PRODUCTS = await res.json();
+  } catch (e) {
+    console.error('Failed to load products.json', e);
+    PRODUCTS = [];
+  }
+}
 
 function loadCart() {
   try { const raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : []; }
@@ -451,7 +447,10 @@ function renderGrid(filter) {
     grid.appendChild(card);
   });
 }
-renderGrid('all');
+loadProducts().then(() => {
+  renderGrid('all');
+  renderCart();
+});
 
 document.getElementById('filters').addEventListener('click', (e) => {
   if (!e.target.matches('.pf-filter')) return;
@@ -725,7 +724,6 @@ document.getElementById('submitReview').addEventListener('click', () => {
 });
 renderReviews();
 
-renderCart();
 </script>
 
 </body>
