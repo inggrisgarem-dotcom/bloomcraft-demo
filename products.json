@@ -3,7 +3,7 @@
     {
       "id": "tulip-red",
       "name": "Red Tulip Bouquet 02",
-      "price": 85000,
+      "price": 100000,
       "img": "assets/tulip-red.jpg",
       "cat": "potted",
       "bestseller": true,
