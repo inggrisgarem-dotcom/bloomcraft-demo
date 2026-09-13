@@ -82,6 +82,15 @@
       "cat": "potted",
       "bestseller": true,
       "features": []
+    },
+    {
+      "id": "purple-orchid-potted",
+      "name": "Purple Orchid (Potted)",
+      "price": 280000,
+      "img": "assets/purple-orchid-potted.jpg",
+      "cat": "potted",
+      "bestseller": true,
+      "features": []
     }
   ]
 }
