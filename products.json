@@ -40,19 +40,6 @@
       ]
     },
     {
-      "id": "anggrek-ungu",
-      "name": "Purple Orchid (Potted)",
-      "price": 285000,
-      "img": "assets/anggrek-ungu.jpg",
-      "cat": "potted",
-      "bestseller": true,
-      "features": [
-        "Ceramic pot included",
-        "Blooms for weeks",
-        "Low maintenance"
-      ]
-    },
-    {
       "id": "bunga-matahari",
       "name": "Sunflower Bouquet",
       "price": 110000,
