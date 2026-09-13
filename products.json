@@ -81,7 +81,7 @@
     {
       "id": "miendog-meatball",
       "name": "Miendog meatball",
-      "price": 15000,
+      "price": 17000,
       "img": "assets/miendog-meatball.jpg",
       "cat": "potted",
       "bestseller": true,
