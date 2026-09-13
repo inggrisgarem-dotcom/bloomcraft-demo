@@ -237,8 +237,6 @@ footer a{color:var(--green-pale);border-bottom:1px solid var(--green-deep)}
   <div class="wrap">
     <div class="pf-filters" id="filters">
       <button class="pf-filter is-active" data-filter="all">All</button>
-      <button class="pf-filter" data-filter="bouquet">Bouquets</button>
-      <button class="pf-filter" data-filter="potted">Potted</button>
     </div>
     <div class="grid" id="productGrid"></div>
 
@@ -377,15 +375,26 @@ const STORAGE_KEY = 'bloomcraft_cart';
 const WA_NUMBER = '6289673919035';
 
 let PRODUCTS = [];
+let CATEGORIES = [];
 async function loadProducts() {
   try {
     const res = await fetch('products.json');
     const data = await res.json();
     PRODUCTS = data.products || [];
+    CATEGORIES = data.categories || [];
   } catch (e) {
     console.error('Failed to load products.json', e);
     PRODUCTS = [];
+    CATEGORIES = [];
   }
+}
+function renderFilterButtons() {
+  const wrap = document.getElementById('filters');
+  const dynamicButtons = CATEGORIES.map(c => {
+    const label = c.charAt(0).toUpperCase() + c.slice(1).replace(/-/g, ' ');
+    return `<button class="pf-filter" data-filter="${c}">${label}</button>`;
+  }).join('');
+  wrap.innerHTML = '<button class="pf-filter is-active" data-filter="all">All</button>' + dynamicButtons;
 }
 
 function loadCart() {
@@ -449,6 +458,7 @@ function renderGrid(filter) {
   });
 }
 loadProducts().then(() => {
+  renderFilterButtons();
   renderGrid('all');
   renderCart();
 });
