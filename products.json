@@ -92,5 +92,9 @@
       "bestseller": true,
       "features": []
     }
+  ],
+  "categories": [
+    "bouquets",
+    "potted"
   ]
 }
