@@ -3,10 +3,10 @@
     {
       "id": "tulip-red",
       "name": "Red Tulip Bouquet",
-      "price": 145000,
+      "price": 100000,
       "img": "assets/tulip-red.jpg",
-      "cat": "bouquet",
-      "bestseller": false,
+      "cat": "potted",
+      "bestseller": true,
       "features": [
         "12 stems, hand-tied",
         "Fresh cut same day",
@@ -45,7 +45,7 @@
       "price": 285000,
       "img": "assets/anggrek-ungu.jpg",
       "cat": "potted",
-      "bestseller": true,
+      "bestseller": false,
       "features": [
         "Ceramic pot included",
         "Blooms for weeks",
