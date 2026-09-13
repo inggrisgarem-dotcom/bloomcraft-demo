@@ -1,8 +1,4 @@
 {
-  "categories": [
-    "bouquets",
-    "potted"
-  ],
   "products": [
     {
       "id": "tulip-red",
@@ -22,7 +18,7 @@
       "name": "White Rose Bouquet",
       "price": 185000,
       "img": "assets/mawar-putih.jpg",
-      "cat": "bouquet",
+      "cat": "bouquets",
       "bestseller": true,
       "features": [
         "15 stems, classic wrap",
@@ -35,7 +31,7 @@
       "name": "Yellow Lily Bunch",
       "price": 130000,
       "img": "assets/lily-kuning.jpg",
-      "cat": "bouquet",
+      "cat": "bouquets",
       "bestseller": false,
       "features": [
         "6 stems, fragrant bloom",
@@ -48,7 +44,7 @@
       "name": "Sunflower Bouquet",
       "price": 110000,
       "img": "assets/bunga-matahari.jpg",
-      "cat": "bouquet",
+      "cat": "bouquets",
       "bestseller": false,
       "features": [
         "5 large stems",
