@@ -1,4 +1,8 @@
 {
+  "categories": [
+    "bouquets",
+    "potted"
+  ],
   "products": [
     {
       "id": "tulip-red",
@@ -92,9 +96,5 @@
       "bestseller": true,
       "features": []
     }
-  ],
-  "categories": [
-    "bouquets",
-    "potted"
   ]
 }
