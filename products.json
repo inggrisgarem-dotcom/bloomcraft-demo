@@ -45,7 +45,7 @@
       "price": 285000,
       "img": "assets/anggrek-ungu.jpg",
       "cat": "potted",
-      "bestseller": false,
+      "bestseller": true,
       "features": [
         "Ceramic pot included",
         "Blooms for weeks",
@@ -77,6 +77,15 @@
         "Statement centerpiece",
         "Limited availability"
       ]
+    },
+    {
+      "id": "rose-best-seller",
+      "name": "Rose best seller",
+      "price": 150000,
+      "img": "assets/rose-best-seller.jpg",
+      "cat": "potted",
+      "bestseller": true,
+      "features": []
     }
   ]
 }
